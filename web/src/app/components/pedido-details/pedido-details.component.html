@@ -1,0 +1,146 @@
+@if (viewMode){
+  @if (currentPedido.id){
+  <h4>Pedido</h4>
+  <div>
+    <label><strong>Nome Cliente:</strong></label> {{ currentPedido.nomeCliente }}
+  </div>
+  <div>
+    <label><strong>E-mail Cliente:</strong></label>
+    {{ currentPedido.emailCliente }}
+  </div>
+  <div>
+    <label><strong>Pago:</strong></label>
+    {{ currentPedido.pago ? "Sim" : "Não" }}
+  </div>
+
+  <div>
+    <label><strong>Valor total:</strong></label>
+    {{ currentPedido.valorTotal | currency:'BRL':true }}
+  </div>
+
+  <div>
+    <label><strong>Qtd. Itens do Pedido:</strong></label>
+    {{ currentPedido.itensPedido?.length }}
+  </div>
+
+  <a class="badge badge-warning" style="width: 60px;" routerLink="/pedidos/{{ currentPedido.id }}">
+    Detalhes
+  </a>
+  } @else {<p>Clique em um pedido para ver os detalhes</p>}
+} @else {
+  @if (currentPedido.id) {
+  <div class="edit-form">
+    <h4>Pedido</h4>
+    <form>
+      <div class="form-group">
+        <label for="nomeCliente">Nome Cliente</label>
+        <input
+          type="text"
+          class="form-control"
+          id="nomeCliente"
+          [(ngModel)]="currentPedido.nomeCliente"
+          name="nomeCliente"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="emailCliente">E-mail Cliente</label>
+        <input
+          type="text"
+          class="form-control"
+          id="emailCliente"
+          [(ngModel)]="currentPedido.emailCliente"
+          name="emailCliente"
+        />
+      </div>
+
+      <div class="form-check form-switch" style="margin-bottom: 15px;">
+        <input [(ngModel)]="currentPedido.pago" 
+               name="pago" 
+               [value]="currentPedido.pago" 
+               class="form-check-input" 
+               type="checkbox" id="pago">
+        <label class="form-check-label" 
+               for="pago">Pago</label>
+      </div>
+
+      <div class="form-group">
+        <label for="nomeProduto">Nome Produto *</label>
+        <input
+          class="form-control"
+          id="nomeProduto"
+          type="text"
+          required
+          [(ngModel)]="itemPedido.nomeProduto"
+          name="nomeProduto"
+        />
+      </div>
+  
+      <div class="form-group">
+        <label for="quantidade">Quantidade *</label>
+        <input
+          class="form-control"
+          id="quantidade"
+          type="number"
+          required
+          [(ngModel)]="itemPedido.quantidade"
+          name="quantidade"
+        />
+      </div>
+      
+      <div class="form-group">
+        <label for="valorProduto">Valor (R$) *</label>
+        <input
+          class="form-control"
+          id="valorProduto"
+          type="number"
+          required
+          [(ngModel)]="itemPedido.valorProduto"
+          name="valorProduto"
+        />
+      </div>
+    </form>
+
+    <button 
+    class="btn btn-primary mr-2" 
+    (click)="addItemPedido()">
+      Adicionar Item
+    </button>
+
+    <button
+      type="submit"
+      class="btn btn-warning mr-2"
+      (click)="updatePedido()">
+      Atualizar
+    </button>
+
+    <button 
+    class="btn btn-danger mr-2" 
+    (click)="deletePedido()">
+      Excluir
+    </button>
+
+
+    <div *ngIf="itensPedido != undefined && itensPedido.length > 0" 
+      style="display: flex; align-items: center; justify-content: center; margin-top: 70px; flex-direction: column;">
+      <h3>Itens do pedido</h3>
+      <table style="width: 600px;" class="table">
+        <thead>
+          <tr>
+            <th scope="col">Produto</th>
+            <th scope="col">Quantidade</th>
+            <th scope="col">Valor Unitário (R$)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of itensPedido">
+            <th scope="row">{{ item.nomeProduto }}</th>
+            <th scope="row">{{ item.quantidade }}</th>
+            <th scope="row">{{ item.valorProduto | currency:'BRL':true }}</th>     
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  }
+}

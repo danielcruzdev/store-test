@@ -8,7 +8,7 @@ namespace API.Store.WebApi.Controllers
 {
     [ApiController]
     [Produces("application/json")]
-    [Route("[controller]/[action]")]
+    [Route("api/[controller]")]
     public class PedidoController : ControllerBase
     {
         private readonly IPedidoApplication _pedidoApplication;
@@ -31,10 +31,10 @@ namespace API.Store.WebApi.Controllers
             return Ok(pedidos);
         }
 
-        [HttpGet]
+        [HttpGet("{id:int}")]
         [ProducesResponseType(typeof(PedidoDto), 200)]
         [ProducesResponseType(204)]
-        public async Task<IActionResult> GetById([FromQuery] int id)
+        public async Task<IActionResult> GetById([FromRoute] int id)
         {
             var pedido = await _pedidoApplication.GetById(id);
 
@@ -67,8 +67,8 @@ namespace API.Store.WebApi.Controllers
             var response = await _pedidoApplication.Update(request);
             return Ok(response);
         }
-
         [HttpDelete]
+
         [ProducesResponseType(typeof(bool), 200)]
         [ProducesResponseType(204)]
         public async Task<IActionResult> Delete([FromQuery] int id)

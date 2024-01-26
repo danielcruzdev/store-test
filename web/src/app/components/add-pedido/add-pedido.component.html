@@ -1,0 +1,95 @@
+<div>
+  <div class="submit-form">
+    @if (!submitted) {
+    <div class="form-group">
+      <label for="nomeCliente">Nome Cliente *</label>
+      <input
+        type="text"
+        class="form-control"
+        id="nomeCliente"
+        required
+        [(ngModel)]="pedido.nomeCliente"
+        name="nomeCliente"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="emailCliente">E-mail Cliente *</label>
+      <input
+        class="form-control"
+        id="emailCliente"
+        type="email"
+        required
+        [(ngModel)]="pedido.emailCliente"
+        name="emailCliente"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="nomeProduto">Nome Produto *</label>
+      <input
+        class="form-control"
+        id="nomeProduto"
+        type="text"
+        required
+        [(ngModel)]="itemPedido.nomeProduto"
+        name="nomeProduto"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="quantidade">Quantidade *</label>
+      <input
+        class="form-control"
+        id="quantidade"
+        type="number"
+        required
+        [(ngModel)]="itemPedido.quantidade"
+        name="quantidade"
+      />
+    </div>
+    
+    <div class="form-group">
+      <label for="valorProduto">Valor (R$) *</label>
+      <input
+        class="form-control"
+        id="valorProduto"
+        type="number"
+        required
+        [(ngModel)]="itemPedido.valorProduto"
+        name="valorProduto"
+      />
+    </div>
+
+    <button (click)="addItemPedido()" class="btn btn-primary">Adicionar Item</button>
+    <button style="margin-left: 20px;"  (click)="savePedido()" class="btn btn-success">Salvar Pedido</button>
+    } @else {
+      <h4>Pedido salvo com sucesso!</h4>
+      <button class="btn btn-success" (click)="newPedido()">Adicionar Pedido</button>
+    }
+  </div>
+
+  <div *ngIf="itensPedido.length > 0" style="display: flex; align-items: center; justify-content: center; margin-top: 70px; flex-direction: column;">
+    <h3>Itens do pedido</h3>
+    <table style="width: 600px;" class="table">
+      <thead>
+        <tr>
+          <th scope="col">Produto</th>
+          <th scope="col">Quantidade</th>
+          <th scope="col">Valor Unitário (R$)</th>
+          <th scope="col">Ação</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of itensPedido">
+          <th scope="row">{{ item.nomeProduto }}</th>
+          <th scope="row">{{ item.quantidade }}</th>
+          <th scope="row">{{ item.valorProduto | currency:'BRL':true }}</th>
+          <th scope="row">
+            <a style="color: rgb(116, 9, 9); cursor: pointer;" (click)="excluirItemPedido(item)">Remover</a>
+          </th>        
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

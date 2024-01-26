@@ -15,6 +15,7 @@ namespace API.Store.WebApi
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddCors();
 
             builder.Services.Registrar();
 
@@ -26,6 +27,13 @@ namespace API.Store.WebApi
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseCors(x => x
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .SetIsOriginAllowed(origin => true)
+                    .WithOrigins("http://localhost:4200/")
+                    .AllowCredentials());
 
             app.UseHttpsRedirection();
 
